@@ -1,0 +1,26 @@
+---
+title: "Machine Learning \nBlock02 Assignment 01"
+author: "Agustín Valencia"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(mboost)
+library(randomForest)
+```
+
+
+# 1. Ensemble Methods
+The file spambase.csv contains information about the frequency of various words, char- acters, etc. for a total of 4601 e-mails. Furthermore, these e-mails have been classified as spams (spam = 1) or regular e-mails (spam = 0). You can find more information about these data at https://archive.ics.uci.edu/ml/datasets/Spambase. 
+
+Your task is to evaluate the performance of Adaboost classification trees and random forests on the spam data. Specifically, provide a plot showing the error rates when the number of trees considered are 10, 20, . . . , 100. To estimate the error rates, use 2/3 of the data for training and 1/3 as hold-out test data.
+
+To learn Adaboost classification trees, use the function blackboost() of the R package mboost. Specify the loss function corresponding to Adaboost with the parameter family. To learn random forests, use the function randomForest of the R package randomForest. To load the data, you may want to use the following code:
+
+```{r ensemble, eval=FALSE}
+sp <- read.csv2("spambase.csv")
+sp$Spam <- as.factor(sp$Spam)
+```
+
+## Solution

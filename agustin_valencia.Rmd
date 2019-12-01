@@ -27,6 +27,7 @@ sp$Spam <- as.factor(sp$Spam)
 
 ## Solution
 
+For trees trained using adaboost we have:
 ```{r}
 ## Splitting data
 set.seed(42)
@@ -50,8 +51,10 @@ get_missed <- function (true, predicted) {
 # Training
 nums <- seq(10,100,10)
 formula <- Spam ~ .
-error_rates_train <- c()
-error_rates_test <- c()
+error_rates_train_bb <- c()
+error_rates_test_bb <- c()
+error_rates_train_rf <- c()
+error_rates_test_rf <- c()
 depths <- c()
 for (i in nums) {
     bb <- blackboost (
@@ -61,21 +64,45 @@ for (i in nums) {
             control = boost_control(mstop = i)
          )
     
+    rf <- randomForest(
+            Spam ~ .,
+            data = train, 
+            ntree = i
+    )
+    
     predicted <- predict(bb, train, type = "class")
     miss <- get_missed(train$Spam, predicted)
-    error_rates_train <- append(error_rates_train, miss)
+    error_rates_train_bb <- append(error_rates_train_bb, miss)
     
     predicted <- predict(bb, test, type = "class")
     miss <- get_missed(test$Spam, predicted)
-    error_rates_test <- append(error_rates_test, miss)
+    error_rates_test_bb <- append(error_rates_test_bb, miss)
+    
+    predicted <- predict(rf, train, type = "class")
+    miss <- get_missed(train$Spam, predicted)
+    error_rates_train_rf <- append(error_rates_train_rf, miss)
+    
+    predicted <- predict(rf, test, type = "class")
+    miss <- get_missed(test$Spam, predicted)
+    error_rates_test_rf <- append(error_rates_test_rf, miss)
+       
     depths <- append(depths, i)
 }
 
 p <- ggplot()
-p <- p + geom_line(aes(x = depths, y = error_rates_train), color = "red")
-p <- p + geom_line(aes(x = depths, y = error_rates_test), color = "blue")
+p <- p + geom_line(aes(x = depths, y = error_rates_train_bb), color = "red")
+p <- p + geom_line(aes(x = depths, y = error_rates_test_bb), color = "blue")
+p <- p + geom_line(aes(x = depths, y = error_rates_train_rf), color = "black")
+p <- p + geom_line(aes(x = depths, y = error_rates_test_rf), color = "green")
+p <- p + geom_point(aes(x = depths, y = error_rates_train_bb), color = "red")
+p <- p + geom_point(aes(x = depths, y = error_rates_test_bb), color = "blue")
+p <- p + geom_point(aes(x = depths, y = error_rates_train_rf), color = "black")
+p <- p + geom_point(aes(x = depths, y = error_rates_test_rf), color = "green")
 
 p
 ```
+
+
+
 
 

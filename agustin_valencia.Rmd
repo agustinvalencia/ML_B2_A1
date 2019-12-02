@@ -30,7 +30,7 @@ sp$Spam <- as.factor(sp$Spam)
 For trees trained using adaboost we have:
 ```{r}
 ## Splitting data
-set.seed(42)
+set.seed(1234567890)
 n <- dim(sp)[1]
 idxs <- sample(1:n, floor(2*n/3))
 train <- sp[idxs,]

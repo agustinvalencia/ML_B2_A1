@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning - Block02 Assignment 01"
-author: "Agustín Valencia"
+author: "Agustín Valencia - aguva779"
 output: pdf_document
 ---
 

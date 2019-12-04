@@ -183,7 +183,10 @@ EM <- function(K) {
                 list (
                     pi = pi, 
                     mu = mu, 
-                    llik = llik
+                    llik = llik,
+                    p = plot(mu[1,], type="o", col="blue", ylim=c(0,1), ) +
+                        points(mu[2,], type="o", col="red") +
+                        points(mu[3,], type="o", col="green")
                 )
             )
         }

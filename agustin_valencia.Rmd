@@ -12,6 +12,7 @@ library(partykit)
 library(ggplot2)
 library(GLDEX)
 set.seed(1234567890)
+RNGversion("3.5.1")
 ```
 
 
@@ -31,7 +32,13 @@ sp$Spam <- as.factor(sp$Spam)
 
 For trees trained using adaboost we have:
 
-```{r, echo=FALSE}
+```{r q1, echo=FALSE}
+
+
+##### -----------------------------------------------------------------------
+#####                               QUESTION 1
+##### -----------------------------------------------------------------------
+
 ## Splitting data
 n <- dim(sp)[1]
 idxs <- sample(1:n, floor(2*n/3))
@@ -119,7 +126,11 @@ Your task is to implement the EM algorithm for mixtures of multivariate Benoulli
 
 ## Solution
 
-```{r, echo=FALSE}
+```{r q2, echo=FALSE}
+
+##### -----------------------------------------------------------------------
+#####                               QUESTION 2
+##### -----------------------------------------------------------------------
 
 EM <- function(K) {
     max_it <- 100 # max number of EM iterations
@@ -178,7 +189,7 @@ EM <- function(K) {
         
         # cat("iteration: ", it, "log likelihood: ", llik[it], "\n") 
         # Stop if the log likelihood has not changed significantly 
-        if ( it > 1 && abs(llik[it] - llik[it-1]) < min_change){
+        if ( it > 1 && abs(llik[it] - llik[it-1]) < min_change || it == max_it){
             titStr <- paste("Predicted Mu for K=", K, sep = "")
             p <- plot(mu[1,], type="o", col="blue", ylim=c(0,1), main=titStr)
             if (K >= 2) {
@@ -224,7 +235,7 @@ EM <- function(K) {
 
 After running EM algorithm for $K = \{2,3,4\}$ the following maximum likelihoods are obtained: 
 
-```{r, echo=FALSE}
+```{r q2b, echo=FALSE}
 em2 <- EM(2)
 em3 <- EM(3)
 em4 <- EM(4)
@@ -238,7 +249,7 @@ cat("The max likelihood for K = 4 : ", max(llik4), "\n")
 
 The following graph shows the consistent encreasing behavior of the likelihood towards 1, thus the log-likelihood will tend try reach zero.
 
-```{r, echo=FALSE}
+```{r q2c, echo=FALSE}
 ggplot() +
     geom_line(aes(x=1:length(llik2), y=llik2), color="black") +
     geom_line(aes(x=1:length(llik3), y=llik3), color="orange") +
@@ -251,7 +262,11 @@ ggplot() +
 
 Black curve corresponds to $K=2$, orange to $K=3$ and turquoise to $K=4$
 
+\newpage
 
+# Apendix A - Code
+```{r, ref.label=knitr::all_labels(),echo=TRUE,eval=FALSE}
+```
 
 
 

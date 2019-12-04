@@ -140,4 +140,4 @@ em_loop = function(K) {
                                         ylab = "log likelihood")
     ))
 }
-em_loop(3)
+a <- em_loop()

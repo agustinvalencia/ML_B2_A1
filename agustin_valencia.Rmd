@@ -211,16 +211,18 @@ EM <- function(K) {
 em2 <- EM(2)
 em3 <- EM(3)
 em4 <- EM(4)
-samples <- 1:1000
+cat("The max likelihood for K = 2", max(em2$llik), "\n")
+cat("The max likelihood for K = 3", max(em3$llik), "\n")
+cat("The max likelihood for K = 4", max(em4$llik), "\n")
 ```
 
 In the following graph:
 
 ```{r, echo=FALSE}
 ggplot() +
-    geom_line(aes(x=samples, y=em2$llik), color="black") +
-    geom_line(aes(x=samples, y=em3$llik), color="orange") +
-    geom_line(aes(x=samples, y=em4$llik), color="darkturquoise") 
+    geom_line(aes(x=1:57, y=em2$llik[1:57]), color="black") +
+    geom_line(aes(x=1:28, y=em3$llik[1:28]), color="orange") +
+    geom_line(aes(x=1:59, y=em4$llik[1:59]), color="darkturquoise") 
 ```
 
 

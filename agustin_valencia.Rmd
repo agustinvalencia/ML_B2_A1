@@ -10,6 +10,7 @@ library(mboost)
 library(randomForest)
 library(partykit)
 library(ggplot2)
+library(GLDEX)
 set.seed(1234567890)
 ```
 
@@ -116,6 +117,7 @@ It can be seen that random forests need less effort (depth-wise) than boosted tr
 
 Your task is to implement the EM algorithm for mixtures of multivariate Benoulli distributions. Please use the template in the next page to solve the assignment. Then, use your implementation to show what happens when your mixture models has too few and too many components, i.e. set $K = 2, 3, 4$ and compare results. Please provide a short explanation as well.
 
+## Solution
 
 ```{r, echo=FALSE}
 
@@ -207,25 +209,34 @@ EM <- function(K) {
 
 ```
 
+After running EM algorithm for $K = \{2,3,4\}$ the following maximum likelihoods are obtained: 
+
 ```{r, echo=FALSE}
 em2 <- EM(2)
 em3 <- EM(3)
 em4 <- EM(4)
-cat("The max likelihood for K = 2", max(em2$llik), "\n")
-cat("The max likelihood for K = 3", max(em3$llik), "\n")
-cat("The max likelihood for K = 4", max(em4$llik), "\n")
+llik2 <- fun.zero.omit(em2$llik)
+llik3 <- fun.zero.omit(em3$llik)
+llik4 <- fun.zero.omit(em4$llik)
+cat("The max likelihood for K = 2 : ", max(llik2), "\n")
+cat("The max likelihood for K = 3 : ", max(llik3), "\n")
+cat("The max likelihood for K = 4 : ", max(llik4), "\n")
 ```
 
-In the following graph:
+The following graph shows the consistent encreasing behavior of the likelihood towards 1, thus the log-likelihood will tend try reach zero.
 
 ```{r, echo=FALSE}
 ggplot() +
-    geom_line(aes(x=1:57, y=em2$llik[1:57]), color="black") +
-    geom_line(aes(x=1:28, y=em3$llik[1:28]), color="orange") +
-    geom_line(aes(x=1:59, y=em4$llik[1:59]), color="darkturquoise") 
+    geom_line(aes(x=1:length(llik2), y=llik2), color="black") +
+    geom_line(aes(x=1:length(llik3), y=llik3), color="orange") +
+    geom_line(aes(x=1:length(llik4), y=llik4), color="darkturquoise") +
+    geom_point(aes(x=1:length(llik2), y=llik2), color="black") +
+    geom_point(aes(x=1:length(llik3), y=llik3), color="orange") +
+    geom_point(aes(x=1:length(llik4), y=llik4), color="darkturquoise") +
+    xlab("Iterations") + ylab("log-likelihood")
 ```
 
-
+Black curve corresponds to $K=2$, orange to $K=3$ and turquoise to $K=4$
 
 
 
